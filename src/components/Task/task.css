@@ -8,13 +8,10 @@
 	bottom: 0;
 	margin: auto 0;
 	border: none;
+	opacity: 0;
 	-webkit-appearance: none;
 	appearance: none;
 	cursor: pointer;
-}
-
-.toggle {
-	opacity: 0;
 }
 
 .toggle + label {
