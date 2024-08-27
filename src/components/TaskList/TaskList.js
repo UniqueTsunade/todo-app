@@ -1,7 +1,8 @@
 import React from "react";
 
-import Task from "./Task";
 import "./task-list.css";
+
+import Task from "../Task";
 
 const TaskList = ( { todoList } ) => {
 

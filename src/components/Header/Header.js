@@ -2,7 +2,7 @@ import React from "react";
 
 import "./header.css";
 
-import NewTaskForm from "./NewTaskForm";
+import NewTaskForm from "../NewTaskForm";
 
 const Header = () => {
     return (
