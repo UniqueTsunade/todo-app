@@ -20,11 +20,26 @@ export default class App extends Component {
     }
   }
 
+  removeTaskById = (id) => {
+    this.setState(({ todoData }) => {
+      const idx = todoData.findIndex((elem) => elem.id === id);
+
+            const newArr = [
+                ...todoData.slice(0,idx), 
+                ...todoData.slice(idx + 1)
+            ]; 
+
+            return {
+                todoData: newArr
+            };
+    })
+  }
+
   render() {
     return (
       <section className="todo-app">
         <Header />
-        <Main todos={this.state.todoData} />
+        <Main todoList={this.state.todoData} removeTaskById={(id) => this.removeTaskById(id)}/>
       </section>
     );
   }

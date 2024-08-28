@@ -28,6 +28,11 @@ export default class TaskList extends Component {
     });
   };
 
+  deleteTask = (id) => {
+    this.props.removeTaskById(id);
+  }
+
+
   render() {
 
     const todoList = this.props.todoList;
@@ -35,11 +40,13 @@ export default class TaskList extends Component {
     const elements = todoList.map((item) => {
     
       const {id, ...itemProps } = item;
-      const isCompleted = this.state.completedTasks.has(id);
+      
+      const { completedTasks } = this.state; 
+      const isCompleted = completedTasks.has(id);
 
       return (
         <li key={id} className={isCompleted ? "completed" : ""}>  
-            <Task {...itemProps} onToggle={() => this.toggleTaskCompletion(id)} />
+            <Task {...itemProps} onToggle={() => this.toggleTaskCompletion(id)}  deleteTask={() => this.deleteTask(id)} />
             <input type="text" className="edit" defaultValue="Editing task"></input>
         </li>
           )

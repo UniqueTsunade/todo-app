@@ -8,6 +8,10 @@ export default class Task extends Component {
         this.props.onToggle();
     };
 
+    handleDelete = () => {
+        this.props.deleteTask();
+    }
+
     render() {
         const label = this.props.label;
 
@@ -20,7 +24,7 @@ export default class Task extends Component {
                     </span>
                     </label>
                     <button className="icon icon-edit"></button>
-                    <button className="icon icon-destroy"></button>
+                    <button onClick={this.handleDelete} className="icon icon-destroy"></button>
                 </div>
             )
     }

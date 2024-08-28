@@ -5,10 +5,10 @@ import "./main.css";
 import TaskList from "../TaskList/TaskList";
 import Footer from "../Footer";
 
-const Main = ( { todos } ) => {
+const Main = ( { todoList, removeTaskById } ) => {
     return (
         <section className="main"> 
-            <TaskList todoList={todos} />
+            <TaskList todoList={todoList} removeTaskById={(id) => removeTaskById(id)} />
             <Footer />
         </section>
     )
