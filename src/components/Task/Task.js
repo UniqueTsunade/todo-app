@@ -4,27 +4,19 @@ import "./task.css";
 
 export default class Task extends Component {
 
-    handleToggle = () => {
-        this.props.onToggle();
-    };
-
-    handleDelete = () => {
-        this.props.deleteTask();
-    }
-
     render() {
-        const label = this.props.label;
+        const { label, onToggle, onDelete } = this.props;
 
         return (
                 <div className="view">
-                    <input onChange={this.handleToggle} className="toggle" type="checkbox"/>
+                    <input onChange={ onToggle } className="toggle" type="checkbox"/>
                     <label>
                     <span className="description">
                         {label}
                     </span>
                     </label>
                     <button className="icon icon-edit"></button>
-                    <button onClick={this.handleDelete} className="icon icon-destroy"></button>
+                    <button onClick={ onDelete } className="icon icon-destroy"></button>
                 </div>
             )
     }

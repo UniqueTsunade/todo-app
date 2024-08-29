@@ -8,16 +8,41 @@ import Main from '../Main';
 
 export default class App extends Component {
  
-  constructor() {
-    super();
+  startId = 100;
+
+  constructor(props) {
+    super(props);
     
     this.state = {
       todoData: [
-      { label: "Drink Coffee", id: 1 },
-      { label: "Make Awesome App", id: 2 },
-      { label: "Have a lunch", id: 3 },
+        this.createTodoTask("Drink Coffee"),
+        this.createTodoTask("Make Awesome App"),
+        this.createTodoTask("Have a lunch")
       ]
     }
+  }
+
+  createTodoTask(label) {
+    return {
+        label, 
+        completed: false,
+        id: this.startId++
+    }
+  } 
+
+  addTask = (text) => {
+    const newItem = this.createTodoTask(text);
+
+    this.setState(({ todoData }) => {
+        let newArr = [
+            ...todoData,
+            newItem
+        ];
+
+        return {
+            todoData: newArr
+        };
+    })
   }
 
   removeTaskById = (id) => {
@@ -35,11 +60,27 @@ export default class App extends Component {
     })
   }
 
+
+  toggleTaskCompletion = (id) => {
+    this.setState(({ todoData }) => {
+      const updatedTasks = todoData.map((task) =>
+        task.id === id ? { ...task, completed: !task.completed } : task
+      );
+  
+      return {
+        todoData: updatedTasks,
+      };
+    });
+  };
+
+
   render() {
     return (
       <section className="todo-app">
-        <Header />
-        <Main todoList={this.state.todoData} removeTaskById={(id) => this.removeTaskById(id)}/>
+        <Header addTask={this.addTask}/>
+        <Main todoList={this.state.todoData} 
+        toggleTaskCompletion={this.toggleTaskCompletion} 
+        removeTaskById={this.removeTaskById}/>
       </section>
     );
   }
