@@ -107,19 +107,21 @@ export default class App extends Component {
   }
 
   render() {
-    // Tasks for different filter categories
-    const filteredTasks = this.filterTasks(this.state.todoData, this.state.selected);
+    const { todoData, selected } = this.state;
+
+    const filteredTasks = this.filterTasks(todoData, selected);
+    const itemsTodo = todoData.reduce((sum, task) => sum += !task.completed, 0);
 
     return (
       <section className="todo-app">
         <Header addTask={this.addTask}/>
-        <Main todoList={filteredTasks} 
-        toggleTaskCompletion={this.toggleTaskCompletion} 
-        removeTaskById={this.removeTaskById}
-        selected={this.state.selected}
-        updateSelected={this.updateSelected}
-        clearCompleted={this.clearCompleted} />
-        
+        <Main itemsTodo={itemsTodo}
+              todoList={filteredTasks} 
+              toggleTaskCompletion={this.toggleTaskCompletion} 
+              removeTaskById={this.removeTaskById}
+              selected={selected}
+              updateSelected={this.updateSelected}
+              clearCompleted={this.clearCompleted} />
       </section>
     );
   }
