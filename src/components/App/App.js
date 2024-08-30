@@ -84,25 +84,41 @@ export default class App extends Component {
     });
   };
 
+  filterTasks = (tasks, selected) => {
+    if (selected === "all") {
+      return tasks;
+    } else if (selected === "active") {
+      return tasks.filter(task => !task.completed);
+    } else {
+      return tasks.filter(task => task.completed);
+    }
+  };
+
+  
+  // Delete all completed tasks at once
+  clearCompleted = () => {
+    this.setState(({ todoData }) => {
+      const onlyActiveTasks = todoData.filter((task) => !task.completed);
+
+      return {
+        todoData: onlyActiveTasks
+      }
+    })
+  }
 
   render() {
     // Tasks for different filter categories
-    const filteredTasks = this.state.selected === "all"
-    ? this.state.todoData
-    : this.state.selected === "active"
-      ? this.state.todoData.filter(task => !task.completed)
-      : this.state.todoData.filter(task => task.completed);
+    const filteredTasks = this.filterTasks(this.state.todoData, this.state.selected);
 
     return (
-
-
       <section className="todo-app">
         <Header addTask={this.addTask}/>
         <Main todoList={filteredTasks} 
         toggleTaskCompletion={this.toggleTaskCompletion} 
         removeTaskById={this.removeTaskById}
         selected={this.state.selected}
-        updateSelected={this.updateSelected}/>
+        updateSelected={this.updateSelected}
+        clearCompleted={this.clearCompleted} />
         
       </section>
     );
