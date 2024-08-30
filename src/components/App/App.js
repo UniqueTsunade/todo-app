@@ -18,7 +18,8 @@ export default class App extends Component {
         this.createTodoTask("Drink Coffee"),
         this.createTodoTask("Make Awesome App"),
         this.createTodoTask("Have a lunch")
-      ]
+      ],
+      selected: "all", 
     }
   }
 
@@ -26,10 +27,11 @@ export default class App extends Component {
     return {
         label, 
         completed: false,
-        id: this.startId++
+        id: this.startId++,
     }
   } 
 
+   // Add new task  
   addTask = (text) => {
     const newItem = this.createTodoTask(text);
 
@@ -45,6 +47,7 @@ export default class App extends Component {
     })
   }
 
+  // Remove task  
   removeTaskById = (id) => {
     this.setState(({ todoData }) => {
       const idx = todoData.findIndex((elem) => elem.id === id);
@@ -60,7 +63,7 @@ export default class App extends Component {
     })
   }
 
-
+  // Mark task complete 
   toggleTaskCompletion = (id) => {
     this.setState(({ todoData }) => {
       const updatedTasks = todoData.map((task) =>
@@ -74,13 +77,33 @@ export default class App extends Component {
   };
 
 
+  // Filter method
+  updateSelected = (newSelected) => {
+    this.setState({
+      selected: newSelected
+    });
+  };
+
+
   render() {
+    // Tasks for different filter categories
+    const filteredTasks = this.state.selected === "all"
+    ? this.state.todoData
+    : this.state.selected === "active"
+      ? this.state.todoData.filter(task => !task.completed)
+      : this.state.todoData.filter(task => task.completed);
+
     return (
+
+
       <section className="todo-app">
         <Header addTask={this.addTask}/>
-        <Main todoList={this.state.todoData} 
+        <Main todoList={filteredTasks} 
         toggleTaskCompletion={this.toggleTaskCompletion} 
-        removeTaskById={this.removeTaskById}/>
+        removeTaskById={this.removeTaskById}
+        selected={this.state.selected}
+        updateSelected={this.updateSelected}/>
+        
       </section>
     );
   }

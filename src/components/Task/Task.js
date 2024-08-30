@@ -5,11 +5,14 @@ import "./task.css";
 export default class Task extends Component {
 
     render() {
-        const { label, onToggle, onDelete } = this.props;
+        const { label, onToggle, onDelete, completed } = this.props;
 
         return (
                 <div className="view">
-                    <input onChange={ onToggle } className="toggle" type="checkbox"/>
+                    <input onChange={onToggle} 
+                            className="toggle" 
+                            type="checkbox" 
+                            checked={completed}/>
                     <label>
                     <span className="description">
                         {label}
