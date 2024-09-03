@@ -1,8 +1,18 @@
 import React, { Component } from "react";
+import PropTypes from 'prop-types';
 
 import "./tasks-filter.css";
 
 export default class TasksFilter extends Component {  
+
+  static defaultProps = {
+    selected: "all", 
+  };
+
+  static propTypes = {
+    selected: PropTypes.string,
+    updateSelected: PropTypes.func.isRequired
+  }
 
   render() {
 

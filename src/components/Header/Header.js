@@ -10,7 +10,7 @@ export default class Header extends Component {
         return (
             <header className="header">
                 <h1>todos</h1>
-                <NewTaskForm addTask={this.props.addTask} />
+                <NewTaskForm addTask={ this.props.addTask } />
             </header>
         )
     }

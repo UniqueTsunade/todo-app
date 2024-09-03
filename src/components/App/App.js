@@ -50,6 +50,7 @@ export default class App extends Component {
     })
   }
 
+
   // Remove task  
   removeTaskById = (id) => {
     this.setState(({ todoData }) => {

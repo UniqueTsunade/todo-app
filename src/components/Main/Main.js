@@ -10,14 +10,14 @@ const Main = ({ todoList, toggleTaskCompletion,
                 clearCompleted, itemsTodo, changeCreatedTask }) => {
     return (
         <section className="main"> 
-            <TaskList todoList={todoList} 
-                    toggleTaskCompletion={toggleTaskCompletion}
-                    removeTaskById={removeTaskById}
-                    changeCreatedTask={changeCreatedTask} />
-            <Footer itemsTodo={itemsTodo}
-                    selected={selected}
-                    updateSelected={updateSelected}
-                    clearCompleted={clearCompleted}
+            <TaskList todoList={ todoList } 
+                    toggleTaskCompletion={ toggleTaskCompletion }
+                    removeTaskById={ removeTaskById }
+                    changeCreatedTask={ changeCreatedTask } />
+            <Footer itemsTodo={ itemsTodo }
+                    selected={ selected }
+                    updateSelected={ updateSelected }
+                    clearCompleted={ clearCompleted }
                     />
         </section>
     )

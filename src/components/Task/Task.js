@@ -1,12 +1,18 @@
 import React, { Component } from "react";
 import { formatDistanceToNow } from 'date-fns';
+import PropTypes from 'prop-types';
 
 import "./task.css";
 
 export default class Task extends Component {
+
   static defaultProps = {
     time: new Date(),
   };
+
+  static propTypes = {
+    onEdit: PropTypes.func.isRequired
+  }
 
   constructor(props) {
     super(props);
@@ -61,13 +67,13 @@ export default class Task extends Component {
 
     return (
       <div className="view">
-        <input onChange={onToggle} className="toggle" type="checkbox" checked={completed} />
+        <input onChange={ onToggle } className="toggle" type="checkbox" checked={completed} />
         <label>
-          <span className="description">{label}</span>
-          <span className="created">created {formattedTime}</span>
+          <span className="description">{ label }</span>
+          <span className="created">created { formattedTime }</span>
         </label>
-        <button onClick={onEdit} className="icon icon-edit"></button>
-        <button onClick={onDelete} className="icon icon-destroy"></button>
+        <button onClick={ onEdit } className="icon icon-edit"></button>
+        <button onClick={ onDelete } className="icon icon-destroy"></button>
       </div>
     );
   }

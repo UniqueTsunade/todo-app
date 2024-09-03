@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from 'prop-types';
 
 import "./task-list.css";
 
@@ -6,9 +7,18 @@ import Task from "../Task";
 
 
 export default class TaskList extends Component {
-  static defaultProps = {
-    todoList: [],
-  };
+
+  static propTypes = {
+    todoList: PropTypes.arrayOf(PropTypes.shape({
+      label: PropTypes.string,
+      completed: PropTypes.bool,
+      id: PropTypes.number,
+      time: PropTypes.instanceOf(Date)
+    })),
+    toggleTaskCompletion: PropTypes.func.isRequired,
+    removeTaskById: PropTypes.func.isRequired, 
+    changeCreatedTask: PropTypes.func.isRequired,
+  }
 
   constructor(props) {
     super(props);
