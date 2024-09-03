@@ -12,15 +12,15 @@ export default class NewTaskForm extends Component {
         }
     }
 
-
+    //Updates the label state with the new input value
     onLabelChange = (e) => {
-        
         this.setState({
             label: e.target.value
         });
 
     };
 
+    //Handles form submission, adds a new task with the current label, and resets the label state
     onSubmit = (e) => {
         e.preventDefault();                
         this.props.addTask(this.state.label);
@@ -39,7 +39,7 @@ export default class NewTaskForm extends Component {
                         placeholder="What needs to be done?" 
                         value={this.state.label}
                         autoFocus
-                        required/>
+                        required />
                 </form>
             );
     }

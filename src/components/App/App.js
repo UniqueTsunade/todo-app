@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import { compareAsc, format } from "date-fns";
 
 import "./app.css";
 
@@ -23,11 +24,13 @@ export default class App extends Component {
     }
   }
 
+ // Create new task 
   createTodoTask(label) {
     return {
         label, 
         completed: false,
         id: this.startId++,
+        time: new Date()
     }
   } 
 
@@ -106,6 +109,19 @@ export default class App extends Component {
     })
   }
 
+  // Add a new label to an already created task
+  changeCreatedTask = (id, newLabel) => {
+    this.setState(({ todoData }) => {
+      const updatedTasks = todoData.map((task) =>
+        task.id === id ? { ...task, label: newLabel, time: new Date() } : task
+      );
+  
+      return {
+        todoData: updatedTasks,
+      };
+    });
+  };
+
   render() {
     const { todoData, selected } = this.state;
 
@@ -121,7 +137,8 @@ export default class App extends Component {
               removeTaskById={this.removeTaskById}
               selected={selected}
               updateSelected={this.updateSelected}
-              clearCompleted={this.clearCompleted} />
+              clearCompleted={this.clearCompleted}
+              changeCreatedTask={this.changeCreatedTask} />
       </section>
     );
   }
