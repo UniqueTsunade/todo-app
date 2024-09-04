@@ -48,19 +48,27 @@ export default class App extends Component {
 
 
   // Remove task  
+  // removeTaskById = (id) => {
+  //   this.setState(({ todoData }) => {
+  //     const idx = todoData.findIndex((elem) => elem.id === id);
+
+  //           const newArr = [
+  //               ...todoData.slice(0,idx), 
+  //               ...todoData.slice(idx + 1)
+  //           ]; 
+
+  //           return {
+  //               todoData: newArr
+  //           };
+  //   })
+  // }
+
   removeTaskById = (id) => {
     this.setState(({ todoData }) => {
-      const idx = todoData.findIndex((elem) => elem.id === id);
-
-            const newArr = [
-                ...todoData.slice(0,idx), 
-                ...todoData.slice(idx + 1)
-            ]; 
-
-            return {
-                todoData: newArr
-            };
-    })
+      return {
+        todoData: todoData.filter(todo => todo.id !== id)
+      }      
+        })
   }
 
   // Mark task complete 
