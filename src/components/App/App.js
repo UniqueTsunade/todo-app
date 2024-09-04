@@ -48,21 +48,6 @@ export default class App extends Component {
 
 
   // Remove task  
-  // removeTaskById = (id) => {
-  //   this.setState(({ todoData }) => {
-  //     const idx = todoData.findIndex((elem) => elem.id === id);
-
-  //           const newArr = [
-  //               ...todoData.slice(0,idx), 
-  //               ...todoData.slice(idx + 1)
-  //           ]; 
-
-  //           return {
-  //               todoData: newArr
-  //           };
-  //   })
-  // }
-
   removeTaskById = (id) => {
     this.setState(({ todoData }) => {
       return {
@@ -92,14 +77,12 @@ export default class App extends Component {
     });
   };
 
+  
   filterTasks = (tasks, selected) => {
-    if (selected === "all") {
-      return tasks;
-    } else if (selected === "active") {
-      return tasks.filter(task => !task.completed);
-    } else {
-      return tasks.filter(task => task.completed);
-    }
+    if (selected === "all") return tasks;
+    return tasks.filter((task) =>
+      selected === "active" ? !task.completed : task.completed
+    )
   };
 
   
@@ -118,7 +101,7 @@ export default class App extends Component {
   changeCreatedTask = (id, newLabel) => {
     this.setState(({ todoData }) => {
       const updatedTasks = todoData.map((task) =>
-        task.id === id ? { ...task, label: newLabel, time: new Date() } : task
+        task.id === id ? { ...task, label: newLabel} : task
       );
   
       return {
