@@ -20,14 +20,13 @@ export default class TaskList extends Component {
     changeCreatedTask: PropTypes.func.isRequired,
   }
 
-  constructor(props) {
-    super(props);
 
-    this.state = {
+
+  state = {
         label: "",
         editing: {}
-    }
-}
+  }
+
 
 //Update the component's state with the new label value
 onLabelChange = (e) => {        

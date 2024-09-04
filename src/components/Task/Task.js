@@ -14,10 +14,13 @@ export default class Task extends Component {
     onEdit: PropTypes.func.isRequired
   }
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      formattedTime: this.formatTime(props.time),
+  state = {
+    formattedTime: '',
+  };
+
+  static getDerivedStateFromProps(props, state) {
+    return {
+      formattedTime: formatDistanceToNow(props.time, { includeSeconds: true, addSuffix: true }),
     };
   }
 

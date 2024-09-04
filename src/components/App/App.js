@@ -9,19 +9,16 @@ import Main from '../Main';
 export default class App extends Component {
  
   startId = 100;
-
-  constructor(props) {
-    super(props);
     
-    this.state = {
-      todoData: [
-        this.createTodoTask("Drink Coffee"),
-        this.createTodoTask("Make Awesome App"),
-        this.createTodoTask("Have a lunch")
-      ],
+  state = {
+    todoData: [
+      this.createTodoTask("Drink Coffee"),
+      this.createTodoTask("Make Awesome App"),
+      this.createTodoTask("Have a lunch")
+    ],
       selected: "all", 
-    }
   }
+
 
  // Create new task 
   createTodoTask(label) {

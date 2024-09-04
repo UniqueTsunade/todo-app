@@ -9,13 +9,10 @@ export default class NewTaskForm extends Component {
         addTask: PropTypes.func.isRequired,
     }
 
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            label: ""
-        }
+    state = {
+        label: ""
     }
+
 
     //Updates the label state with the new input value
     onLabelChange = (e) => {
