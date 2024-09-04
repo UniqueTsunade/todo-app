@@ -11,13 +11,20 @@ export default class Task extends Component {
   };
 
   static propTypes = {
-    onEdit: PropTypes.func.isRequired
+    editOneTask: PropTypes.func.isRequired,
+    handleBlur: PropTypes.func.isRequired,
+    changeTaskAfterSubmitting: PropTypes.func.isRequired,
+    isEditing:  PropTypes.bool.isRequired,
   }
 
   state = {
+    label: "",
     formattedTime: '',
   };
 
+  /*Methods for updating task creation time*/
+
+  //Updates the component's state with the formatted time based on the props.time value
   static getDerivedStateFromProps(props, state) {
     return {
       formattedTime: formatDistanceToNow(props.time, { includeSeconds: true, addSuffix: true }),
@@ -47,8 +54,6 @@ export default class Task extends Component {
     this.timerId = setInterval(this.updateTime, 20000); // Run an update every 20 seconds
   };
 
-
-
   //Lifecycle method: Called when the component is mounted
   componentDidMount() {
     this.startUpdatingTime(); // Call startUpdatingTime to initialize the timer
@@ -64,20 +69,55 @@ export default class Task extends Component {
   }
 
 
+
+  /*Methods for changing task text*/
+
+  //Update the component's state with the new label value
+  onLabelChange = (e) => {        
+    this.setState({
+        label: e.target.value
+    });
+  };
+
+  //Update the task's label and reset the component's state
+  onSubmit = (e) => {
+    e.preventDefault();
+    this.props.changeTaskAfterSubmitting(this.props.id, this.state.label); 
+    this.setState({ label: "" }); 
+  };
+
+
   render() {
-    const { label, onToggle, onDelete, completed, onEdit } = this.props;
+    const { label, onToggle, onDelete, completed, editOneTask, handleBlur } = this.props;
     const { formattedTime } = this.state;
 
+    const isEditing = this.props.isEditing;
+
     return (
-      <div className="view">
-        <input onChange={ onToggle } className="toggle" type="checkbox" checked={completed} />
-        <label>
-          <span className="description">{ label }</span>
-          <span className="created">created { formattedTime }</span>
-        </label>
-        <button onClick={ onEdit } className="icon icon-edit"></button>
-        <button onClick={ onDelete } className="icon icon-destroy"></button>
-      </div>
+      <>
+        <div className="view">
+            <input onChange={ onToggle } className="toggle" type="checkbox" checked={completed} />
+            <label>
+              <span className="description">{ label }</span>
+              <span className="created">created { formattedTime }</span>
+            </label>
+            <button onClick={ () => editOneTask(this.props.id) } className="icon icon-edit"></button>
+            <button onClick={ onDelete } className="icon icon-destroy"></button>
+        </div>
+        {isEditing && ( 
+          <form className="edit-task-form" onSubmit={ this.onSubmit }>
+            <input
+              type="text"
+              onChange={this.onLabelChange}
+              className="edit"
+              value={this.state.label}
+              autoFocus
+              onBlur={handleBlur}
+              required
+            />
+          </form>
+        )}
+        </>
     );
   }
 }

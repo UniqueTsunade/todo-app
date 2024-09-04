@@ -20,47 +20,25 @@ export default class TaskList extends Component {
     changeCreatedTask: PropTypes.func.isRequired,
   }
 
-
-
   state = {
-        label: "",
-        editing: {}
+    editing: [],
+  };
+
+  //Ability to work with only one input to edit a task
+  editOneTask = (id) => {
+    this.setState({ editing: [id] }); 
   }
 
+  //Reset the editing state when the input field loses focus
+  handleBlur = () => {
+    this.setState({ editing: [] }); 
+  };
 
-//Update the component's state with the new label value
-onLabelChange = (e) => {        
-    this.setState({
-        label: e.target.value
-    });
-};
-
-//Update the task's label and reset the component's state
-onSubmit = (id) => (e) => {
-  e.preventDefault();
-  this.props.changeCreatedTask(id, this.state.label);
-  this.setState({
-    label: "",
-    editing: {}
-  });
-};
-
-//Open input for changes to a specific task
-onEdit = (id) => {
-  if (Object.keys(this.state.editing).length === 0) {
-    this.setState({
-      editing: { [id]: true }
-    });
-  }
-};
-
-
-//Reset the editing state when the input field loses focus
-handleBlur = (id) => {
-  this.setState({ editing: {} }); 
-};
-
-
+  //Sending the received data for the task of changing the text
+  changeTaskAfterSubmitting = (id, label) => {
+    this.props.changeCreatedTask(id, label);
+    this.setState({ editing: [] });
+  };
 
   render() {
     const {todoList, toggleTaskCompletion, removeTaskById } = this.props;
@@ -69,28 +47,19 @@ handleBlur = (id) => {
       const {id, ...itemProps } = item;
       const isCompleted = item.completed;
 
-      const isEditing = this.state.editing[id];
-
+      
+      const isEditing = this.state.editing.includes(id);
 
       return (
-          <li key={id} className={`${isCompleted ? "completed" : ""} ${isEditing ? "editing" : ""}`}>
-            <Task {...itemProps} 
-            onToggle={() => toggleTaskCompletion(id)} 
-            onDelete={() => removeTaskById(id)}
-            onEdit={() => this.onEdit(id)} />
-            {isEditing && ( 
-            <form className="edit-task-form" onSubmit={this.onSubmit(id)}>
-              <input
-                type="text"
-                onChange={this.onLabelChange}
-                className="edit"
-                value={this.state.label}
-                autoFocus 
-                onBlur={() => this.handleBlur(id)} 
-                required
-              />
-            </form>
-          )}
+          <li key={ id } className={ `${isCompleted ? "completed" : ""} ${isEditing ? "editing" : ""}` }>
+            <Task { ...itemProps } 
+            id={id}
+            isEditing={ isEditing } 
+            onToggle={ () => toggleTaskCompletion(id) } 
+            onDelete={ () => removeTaskById(id) }
+            editOneTask={ this.editOneTask }
+            handleBlur={ this.handleBlur }
+            changeTaskAfterSubmitting={ this.changeTaskAfterSubmitting } />
         </li>
           )
       })
