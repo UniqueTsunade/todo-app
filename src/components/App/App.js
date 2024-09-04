@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { compareAsc, format } from "date-fns";
 
 import "./app.css";
 
