@@ -68,6 +68,20 @@
 	padding: 0;
 }
 
+.task-list li label .title {
+	word-break: break-all;
+	display: block;
+	line-height: 1.2;
+	transition: color 0.4s;
+	font-weight: 400;
+	color: #4d4d4d;
+}
+
+.task-list li.completed label .title {
+	color: #cdcdcd;
+	text-decoration: line-through;
+}
+
 .task-list li.editing .edit {
 	display: block;
 	width: calc(100% - 43px);
@@ -86,24 +100,6 @@
 	padding: 15px 85px 15px 60px;
 }
 
-.task-list li label .created {
-	font-size: 13px;
-	color: gray;
-}
-
-.task-list li label .description {
-	word-break: break-all;
-	display: block;
-	line-height: 1.2;
-	transition: color 0.4s;
-	font-weight: 400;
-	color: #4d4d4d;
-}
-
-.task-list li.completed label .description {
-	color: #cdcdcd;
-	text-decoration: line-through;
-}
 
 .task-list li .edit {
 	display: none;

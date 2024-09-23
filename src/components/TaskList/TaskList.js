@@ -41,7 +41,7 @@ export default class TaskList extends Component {
   };
 
   render() {
-    const {todoList, toggleTaskCompletion, removeTaskById } = this.props;
+    const {todoList, toggleTaskCompletion, removeTaskById, turnOnTimer, pauseTimer } = this.props;
 
     const tasks = todoList.map((item) => {
       const {id, ...itemProps } = item;
@@ -59,7 +59,9 @@ export default class TaskList extends Component {
             onDelete={ () => removeTaskById(id) }
             editOneTask={ this.editOneTask }
             handleBlur={ this.handleBlur }
-            changeTaskAfterSubmitting={ this.changeTaskAfterSubmitting } />
+            changeTaskAfterSubmitting={ this.changeTaskAfterSubmitting }
+            turnOnTimer={(timerMinutes, timerSeconds) => turnOnTimer(id, timerMinutes, timerSeconds) }
+            pauseTimer={() => pauseTimer(id)} />
         </li>
           )
       })

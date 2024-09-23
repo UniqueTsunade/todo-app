@@ -25,14 +25,11 @@
 }
 
 .icon {
-	position: absolute;
-	top: 0;
-	bottom: -3px;
 	width: 30px;
 	height: 40px;
 	font-size: 34px;
 	color: #cc9a9a;
-	margin: auto 0 11px;
+	margin: auto 0;
 	transition: color 0.2s ease-out;
 	cursor: pointer;
 }
@@ -42,6 +39,9 @@
 }
 
 .icon-destroy {
+	position: absolute;
+	top: 0;
+	bottom: -3px;
 	right: 10px;
 }
 
@@ -50,6 +50,9 @@
 }
 
 .icon-edit {
+	position: absolute;
+	top: 0;
+	bottom: -3px;
 	font-size: 19px;
 	right: 45px;
 }
@@ -58,6 +61,22 @@
 	content: '✎';
 }
 
+.icon-pause {
+	margin-right: 7px;
+}
+
+.icon-pause, .icon-play {
+	font-size: 18px;
+	width: 18px;
+	height: 18px;
+}
+
+
+.editing:last-child {
+	margin-bottom: -1px;
+}
+
+
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	.toggle {
 		background: none;
@@ -65,4 +84,20 @@
 	}
 }
 
+.description {
+	font-size: 13px;
+	color: gray;
+}
 
+
+.icon-play {
+	font-size: 15px;
+}
+
+.icon-pause:after {
+	content: '⏸';
+}
+
+.icon-play:after {
+	content: '▶';
+}
