@@ -102,7 +102,7 @@ export default class NewTaskForm extends Component {
     e.preventDefault();
     const { label, minutes, seconds } = this.state;
 
-    if (label && minutes && seconds) {
+    if (label && minutes && seconds !== "00") {
       this.props.addTask(label, minutes, seconds);
       this.setState({
         label: "",
@@ -117,6 +117,8 @@ export default class NewTaskForm extends Component {
   render() {
 
     let { label, minutes, seconds } = this.state;
+
+    console.log(typeof seconds)
 
     return (
       <form
