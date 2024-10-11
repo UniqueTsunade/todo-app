@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from 'prop-types';
 
 import "./new-task-form.css";
-import { getTimerData, formatTime, handleArrowKeyNavigation } from "../../utils/helpers";
+import { getTimerData, formatTime, handleArrowKeyNavigation, isTimerInput, validateTimerInput, } from "../../utils/helpers";
  
 export default class NewTaskForm extends Component {
   static propTypes = {
@@ -15,6 +15,9 @@ export default class NewTaskForm extends Component {
     seconds: "",
     minutesFocused: false, 
     secondsFocused: false, 
+    labelError: false,    
+    minutesError: false,  
+    secondsError: false,  
   };
 
   //Updates the label state with the new input value
@@ -36,15 +39,22 @@ export default class NewTaskForm extends Component {
 
   // Changing timer data
   onTimeChange = (value, stateProperty) => {
+    //Checking that the input value is a number
+    if (!/^\d*$/.test(value)) {
+      return; //Stop execution if the value is not a number
+    }
     const timeDataArray = value.split("");
     const updateTimeData = parseInt(timeDataArray.slice(-2).join(""), 10);
-
-    if (stateProperty === "seconds") {
-      this.handleSecondsUpdate(updateTimeData);
-    } else {
-      this.updateStateTimer(stateProperty, updateTimeData);
+  
+    if (!isNaN(updateTimeData)) {
+      if (stateProperty === "seconds") {
+        this.handleSecondsUpdate(updateTimeData);
+      } else {
+        this.updateStateTimer(stateProperty, updateTimeData);
+      }
     }
   };
+  
 
   // Converting values ​​greater than specified values
   handleSecondsUpdate = (updateTimeData) => {
@@ -77,24 +87,37 @@ export default class NewTaskForm extends Component {
     this.onTimeChange(value, stateProperty);
   };
 
+
+
   onKeyDown = (e) => {
+
     handleArrowKeyNavigation(e);
 
-    if (
-      e.target.className === "timer" &&
-      !/[0-9]/.test(e.key) &&
-      e.key !== "Backspace" &&
-      e.key !== "ArrowLeft" &&
-      e.key !== "ArrowRight"
-    )
-      if (
-        e.key === "Enter" &&
-        this.state.label &&
-        this.state.minutes &&
-        this.state.seconds
-      ) {
-        this.onSubmit(e);
-      }
+    //Timer Input Validation
+    if (isTimerInput(e.target)) {
+      validateTimerInput(e);
+    }
+  
+    //Submitting a form by pressing Enter
+    if (e.key === "Enter") {
+      this.handleFormSubmitOnEnter(e);
+    }
+  };
+  
+  //Submitting a form by pressing Enter
+  handleFormSubmitOnEnter = (e) => {
+    const { label, minutes, seconds } = this.state;
+  
+    if (label && minutes && seconds) {
+      this.onSubmit(e);
+    } else {
+      //Set error flags depending on what is not filled in
+    this.setState({
+      labelError: !label,
+      minutesError: !minutes,
+      secondsError: !seconds
+    });
+    }
   };
 
   //Handles form submission, adds a new task with the current label, and resets the label state
@@ -102,7 +125,7 @@ export default class NewTaskForm extends Component {
     e.preventDefault();
     const { label, minutes, seconds } = this.state;
 
-    if (label && minutes && seconds !== "00") {
+    if (label && (minutes !== "00" || seconds !== "00")) {
       this.props.addTask(label, minutes, seconds);
       this.setState({
         label: "",
@@ -116,9 +139,7 @@ export default class NewTaskForm extends Component {
 
   render() {
 
-    let { label, minutes, seconds } = this.state;
-
-    console.log(typeof seconds)
+    let { label, minutes, seconds, labelError, minutesError, secondsError } = this.state;
 
     return (
       <form
@@ -127,7 +148,7 @@ export default class NewTaskForm extends Component {
         onKeyDown={this.onKeyDown}
       >
         <input
-          className="new-todo"
+          className={`new-todo ${labelError ? 'error' : ''}`}
           onChange={this.onLabelChange}
           placeholder="Task"
           value={label}
@@ -136,7 +157,7 @@ export default class NewTaskForm extends Component {
         />
 
         <input
-          className="timer"
+          className={`timer ${minutesError ? 'error' : ''}`}
           onChange={(e) => this.onTimeChangeHandler(e, "minutes")}
           placeholder="Min"
           value={minutes}
@@ -145,7 +166,7 @@ export default class NewTaskForm extends Component {
         />
 
         <input
-          className="timer"
+          className={`timer ${secondsError ? 'error' : ''}`} 
           onChange={(e) => this.onTimeChangeHandler(e, "seconds")}
           placeholder="Sec"
           value={seconds}

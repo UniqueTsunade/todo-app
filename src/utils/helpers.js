@@ -22,3 +22,17 @@ export function handleArrowKeyNavigation(e) {
     inputs[currentIndex + 1].select();
   } 
 }
+
+export function isTimerInput(target) {
+  return target.className === "timer";
+}
+
+export function validateTimerInput(e) {
+  const allowedKeys = ["Backspace", "ArrowLeft", "ArrowRight"];
+  const isNumberKey = /[0-9]/.test(e.key);
+
+  if (!isNumberKey && !allowedKeys.includes(e.key)) {
+    e.preventDefault(); 
+  }
+};
+

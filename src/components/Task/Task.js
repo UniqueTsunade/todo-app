@@ -17,8 +17,9 @@ export default class Task extends Component {
   };
 
   state = {
-    label: "",
+    modifiedLabel: "",
     formattedTime: "",
+    isTimerActive: false
   };
 
   /*Methods for updating task creation time*/
@@ -70,28 +71,54 @@ export default class Task extends Component {
     window.removeEventListener("blur", this.stopUpdatingTime);
   }
 
-  /*Methods for changing task text*/
 
   //Update the component's state with the new label value
   onLabelChange = (e) => {
     this.setState({
-      label: e.target.value,
+      modifiedLabel: e.target.value,
     });
   };
 
   //Update the task's label and reset the component's state
   onSubmit = (e) => {
     e.preventDefault();
-    this.props.changeTaskAfterSubmitting(this.props.id, this.state.label);
-    this.setState({ label: "" });
+    this.props.changeTaskAfterSubmitting(this.props.id, this.state.modifiedLabel);
+    this.setState({ modifiedLabel: "" });
   };
 
+  handleTurnOnTimer = (completed, timerMinutes, timerSeconds) => {
+    if (!completed && !this.state.isTimerActive) { 
+      this.setState({ isTimerActive: true }, () => {
+        this.props.turnOnTimer(timerMinutes, timerSeconds); 
+      });
+    }
+  };
+
+  handlePauseTimer = () => {
+    if (this.state.isTimerActive) { 
+      this.setState({ isTimerActive: false }, () => {
+        this.props.pauseTimer(); 
+      });
+    }
+  }
+
   render() {
-    const { label, onToggle, onDelete, completed, editOneTask, handleBlur, timerMinutes, timerSeconds, turnOnTimer, pauseTimer } =
-      this.props;
-    const { formattedTime } = this.state;
+    const {
+      label,
+      onToggle,
+      onDelete,
+      completed,
+      editOneTask,
+      handleBlur,
+      timerMinutes,
+      timerSeconds,
+    } = this.props;
+
+    const { formattedTime, isTimerActive, modifiedLabel } = this.state;
 
     const isEditing = this.props.isEditing;
+
+    console.log(isEditing)
 
     return (
       <>
@@ -105,8 +132,14 @@ export default class Task extends Component {
           <label>
             <span className="title">{label}</span>
             <span className="description">
-              <button onClick={() => turnOnTimer(timerMinutes, timerSeconds)}  className="icon icon-play"></button>
-              <button onClick={pauseTimer} className="icon icon-pause"></button>
+              <button
+                onClick={() => this.handleTurnOnTimer(completed, timerMinutes, timerSeconds)}
+                className={`icon icon-play ${isTimerActive ? "icon-play-active" : ""}`}
+              ></button>
+              <button 
+                onClick={() => this.handlePauseTimer()} 
+                className={`icon icon-pause ${!isTimerActive ? "icon-pause-active" : ""}`}>
+              </button>
               {timerMinutes}:{timerSeconds}
             </span>
             <span className="description">created {formattedTime}</span>
@@ -123,7 +156,7 @@ export default class Task extends Component {
               type="text"
               onChange={this.onLabelChange}
               className="edit"
-              value={label}
+              value={modifiedLabel}
               autoFocus
               onBlur={handleBlur}
               required

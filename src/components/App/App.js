@@ -162,12 +162,11 @@ export default class App extends Component {
         ...timerData,
         isRunning: false,
       });
-    } 
+    }
   };
 
   // Create an interval for the timer
   createTimerInterval = (id, remainDerdecrease) => {
-
     const timerInterval = setInterval(() => {
       remainDerdecrease -= 1;
       this.refreshTimerDisplay(id, remainDerdecrease);
@@ -188,12 +187,16 @@ export default class App extends Component {
   turnOnTimer = (id, timerMinutes, timerSeconds) => {
     // Checking if the timer is working before creating a new one
     if (this.timers.has(id) && this.timers.get(id).isRunning) {
-      
       return; // Abort the execution of the function if the timer is running
     }
 
     // Convert time to seconds and create a timer
     let remainDerdecrease = convertTimeToSeconds(timerMinutes, timerSeconds);
+
+    if (remainDerdecrease <= 0) {
+      return; // Abort if the time is 0
+    }
+
     this.createTimerInterval(id, remainDerdecrease);
   };
 
