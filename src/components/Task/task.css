@@ -95,9 +95,17 @@
 	font-size: 15px;
 }
 
-.icon-play-active {
-
+.icon-play-inactive {
 	display: none;
+}
+
+.icon-play-active {
+	display: inline-block !important;
+}
+
+
+.icon-pause-active {
+	display: inline-block !important;
 }
 
 
@@ -105,7 +113,7 @@
 	content: '⏸';
 }
 
-.icon-pause-active {
+.icon-pause-inactive {
 	display: none;
 }
 

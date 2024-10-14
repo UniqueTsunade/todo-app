@@ -46,7 +46,7 @@ export default class TaskList extends Component {
     const tasks = todoList.map((item) => {
       const {id, ...itemProps } = item;
       const isCompleted = item.completed;
-
+      const isTimerEnd = item.timerEnd;
       
       const isEditing = this.state.editing.includes(id);
 
@@ -55,6 +55,7 @@ export default class TaskList extends Component {
             <Task { ...itemProps } 
             id={id}
             isEditing={ isEditing } 
+            isTimerEnd={ isTimerEnd }
             onToggle={ () => toggleTaskCompletion(id) } 
             onDelete={ () => removeTaskById(id) }
             editOneTask={ this.editOneTask }

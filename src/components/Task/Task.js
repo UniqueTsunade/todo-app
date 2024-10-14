@@ -112,6 +112,7 @@ export default class Task extends Component {
       handleBlur,
       timerMinutes,
       timerSeconds,
+      isTimerEnd
     } = this.props;
 
     const { formattedTime, isTimerActive, modifiedLabel } = this.state;
@@ -134,11 +135,11 @@ export default class Task extends Component {
             <span className="description">
               <button
                 onClick={() => this.handleTurnOnTimer(completed, timerMinutes, timerSeconds)}
-                className={`icon icon-play ${isTimerActive ? "icon-play-active" : ""}`}
+                className={`icon icon-play ${isTimerActive ? "icon-play-inactive" : ""}  ${isTimerEnd ? "icon-play-active" : ""}`}
               ></button>
               <button 
                 onClick={() => this.handlePauseTimer()} 
-                className={`icon icon-pause ${!isTimerActive ? "icon-pause-active" : ""}`}>
+                className={`icon icon-pause ${!isTimerActive || isTimerEnd ? "icon-pause-inactive" : ""}`}>
               </button>
               {timerMinutes}:{timerSeconds}
             </span>

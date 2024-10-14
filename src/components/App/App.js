@@ -30,6 +30,7 @@ export default class App extends Component {
       time: new Date(),
       timerMinutes,
       timerSeconds,
+      timerEnd: false,
     };
   }
 
@@ -64,7 +65,7 @@ export default class App extends Component {
       }
       this.setState(({ todoData }) => ({
         todoData: todoData.map((task) =>
-          task.id === id ? { ...task, completed: !task.completed } : task
+          task.id === id ? { ...task, completed: !task.completed} : task
         ),
       }));
     } else {
@@ -172,6 +173,15 @@ export default class App extends Component {
       this.refreshTimerDisplay(id, remainDerdecrease);
 
       if (remainDerdecrease <= 0) {
+        this.setState(({ todoData }) => {
+          const updatedTasks = todoData.map((task) =>
+            task.id === id ? { ...task, timerEnd: true} : task
+          );
+    
+          return {
+            todoData: updatedTasks,
+          };
+        });
         this.stopTimer(id);
       }
     }, 1000);
@@ -198,6 +208,7 @@ export default class App extends Component {
     }
 
     this.createTimerInterval(id, remainDerdecrease);
+
   };
 
   // Pause the timer
@@ -220,6 +231,7 @@ export default class App extends Component {
 
   render() {
     const { todoData, selected } = this.state;
+    console.log(todoData)
 
     const filteredTasks = this.filterTasks(todoData, selected);
     const itemsTodo = todoData.reduce(
